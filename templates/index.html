@@ -1,1 +1,5 @@
-hello world
+{% extends 'base.html' %}
+
+{% block content %}
+<a href="{% url 'orikomi:signup' %}">ユーザー登録</a>
+{% endblock content %}

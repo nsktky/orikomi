@@ -17,7 +17,7 @@ def signupfunc(request):
             # create_userでユーザーを作成。引数にユーザー名、メールアドレス、パスワードを渡す
             user = User.objects.create_user(username, '', password)
             # renderメソッドはhttpレスポンスを作成する
-            return render(request, 'signup.html', {'some': 100})
+            return render(request, 'signup.html', {})
         except IntegrityError:
             return render(request, 'signup.html', {'error': 'このユーザーは登録されています。'})
 
