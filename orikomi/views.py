@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.db import IntegrityError
-from django.views.generic import TemplateView
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.views.generic import TemplateView, ListView
 
 class IndexView(TemplateView):
     template_name = 'index.html'
@@ -22,3 +24,26 @@ def signupfunc(request):
             return render(request, 'signup.html', {'error': 'このユーザーは登録されています。'})
 
     return render(request, 'signup.html')
+
+
+# ログイン関数。登録されたユーザーを認証する。
+def loginfunc(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            # ログイン成功したらmenuページへリダイレクト
+            return redirect('orikomi:menu')
+        else:
+            return render(request, 'login.html', {'error': 'ユーザー名またはパスワードが間違っています。'})
+    return render(request, 'login.html', {})
+
+
+# ログイン後のメニューを実装
+# ログインしてなければLOGIN_URLにリダイレクトするようデコレーターをつける
+# @login_required
+class MenuView(TemplateView):
+    template_name = 'menu.html'

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- staticの中のstyle.cssを読み込む -->
+{% block customcss %}
+<link href="{% static 'signup_style.css' %}" rel="stylesheet">
+{% endblock customcss %}
+
+<body  class="text-center" >
+    <form class="form-signin" method='POST'>{% csrf_token %}
+        <h1 class="h3 mb-3 font-weight-normal">ログイン</h1>
+        <label for="inputUsername" class="sr-only">ユーザー名</label>
+        <!-- inputタグにnameを指定する -->
+        <input type="text" id="inputEmail" class="form-control" placeholder='ユーザー名' name='username' required autofocus>
+        <label for="inputPassword" class="sr-only">パスワード</label>
+        <!-- inputタグにnameを指定する -->
+        <input type="password" id="inputPassword" class="form-control" placeholder="パスワード"  name='password' required>
+        <!-- ユーザー作成の際、エラーがでたら表示 -->
+        {{ error }}
+        <button class="btn btn-lg btn-primary btn-block" type="submit">ログイン</button>
+        <p class="mt-5 mb-3 text-muted">&copy; 2021</p>
+    </form>
+</body>
+
+{% endblock content %}
