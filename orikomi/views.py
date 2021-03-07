@@ -36,11 +36,16 @@ def loginfunc(request):
         if user is not None:
             login(request, user)
             # ログイン成功したらmenuページへリダイレクト
-            return redirect('orikomi:menu')
+            return redirect('menu')
         else:
             return render(request, 'login.html', {'error': 'ユーザー名またはパスワードが間違っています。'})
     return render(request, 'login.html', {})
 
+
+# ログアウト機能。ログアウト後はloginページへ遷移
+def logoutfunc(request):
+    logout(request)
+    return redirect('login')
 
 # ログイン後のメニューを実装
 # ログインしてなければLOGIN_URLにリダイレクトするようデコレーターをつける
