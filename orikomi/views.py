@@ -2,11 +2,16 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
-from django.views.generic import TemplateView, ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import TemplateView, ListView, FormView
+from .forms import InquiryForm
 
 class IndexView(TemplateView):
     template_name = 'index.html'
+
+class InquiryView(FormView):
+    template_name = 'inquiry.html'
+    form_class = InquiryForm
 
 # サインイン関数。新規ユーザーの作成と重複登録を防ぐ処理をする
 def signupfunc(request):
@@ -42,13 +47,12 @@ def loginfunc(request):
     return render(request, 'login.html', {})
 
 
-# ログアウト機能。ログアウト後はloginページへ遷移
+# ログアウト機能。ログアウト後はtopページへ遷移
 def logoutfunc(request):
     logout(request)
-    return redirect('login')
+    return redirect('index')
 
 # ログイン後のメニューを実装
-# ログインしてなければLOGIN_URLにリダイレクトするようデコレーターをつける
-# @login_required
-class MenuView(TemplateView):
+# LoginRequiredMixinでログイン必須にする
+class MenuView(TemplateView, LoginRequiredMixin):
     template_name = 'menu.html'
