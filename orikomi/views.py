@@ -15,7 +15,7 @@ class IndexView(TemplateView):
 class InquiryView(FormView):
     template_name = 'inquiry.html'
     form_class = InquiryForm
-    success_url = reverse_lazy('inquiry')
+    success_url = reverse_lazy('orikomi:inquiry')
 
     def form_valid(self, form):
         form.send_email()
