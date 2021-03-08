@@ -4,14 +4,21 @@ from django.db import IntegrityError
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView, ListView, FormView
+from django.urls import reverse_lazy
 from .forms import InquiryForm
 
 class IndexView(TemplateView):
     template_name = 'index.html'
 
+# お問い合わせ用フォーム
 class InquiryView(FormView):
     template_name = 'inquiry.html'
     form_class = InquiryForm
+    success_url = reverse_lazy('inquiry')
+    
+    def form_valid(self, form):
+        form.send_email()
+        return super().form_valid(form)
 
 # サインイン関数。新規ユーザーの作成と重複登録を防ぐ処理をする
 def signupfunc(request):

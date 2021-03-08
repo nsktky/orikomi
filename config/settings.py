@@ -129,3 +129,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # ログインしてない場合、loginページへリダイレクト
 LOGIN_URL = 'login'
+
+# 開発環境用設定。問い合わせメール配信をコンソールにする。
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
