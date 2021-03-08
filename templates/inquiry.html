@@ -3,6 +3,15 @@
 {% block title %}お問い合わせ{% endblock title %}
 
 {% block content %}
+
+{% if messages %}
+    {% for message in messages %}
+    <div class="container">
+        {{ message }}
+    </div>
+    {% endfor %}
+{% endif %}
+
 <div class="container">
     <form method="post">
         {% csrf_token %}
