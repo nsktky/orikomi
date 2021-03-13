@@ -1,1 +1,7 @@
-ログイン後メニュー
+ログイン後メニュー<br>
+
+{% for item in object_list %}
+{{ item.as_p }}
+{% empty %}
+<p>折り込みがありません。</p>
+{% endfor %}
