@@ -1,21 +1,18 @@
-ログイン後メニュー<br>
+{% extends 'base.html' %}
+
+{% block content %}
+<p>ログイン後メニュー</p>
 
 {% for item in object_list %}
 
-<p>{{ item.title }}</p>
-<p>{{ item.start_day }}</p>
-<p>{{ item.end_day }}</p>
-<p>{{ item.area }}</p>
-<p>{{ item.genre }}</p>
-
-<img src="{{ item.front_imege.url }}" alt="front_image">
-{% if item.back_image %}
-<img src="{{ item.back_image.url }}" alt="back_imege">
-{% endif %}
-<p>{{ item.created_at }}</p>
+<p><a href="{% url 'orikomi:orikomi_detail' item.pk %}">公演名：{{ item.title }}</a></p>
+<p>上演日：{{ item.start_day }}〜{{ item.end_day }}</p>
 
 {% empty %}
 <p>折り込みがありません。</p>
 {% endfor %}
 
-<a href="{% url 'account_logout' %}">ログアウト</a>
+<p><a href="{% url 'orikomi:orikomi_create' %}">オリコミする</a></p>
+<p><a href="{% url 'account_logout' %}">ログアウト</a></p>
+
+{% endblock content %}

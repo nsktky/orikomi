@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView, ListView, FormView
+from django.views.generic import TemplateView, ListView, FormView, DetailView, CreateView
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import InquiryForm
+from .forms import InquiryForm, OrikomiCreateForm
 from .models import Orikomi
 
 class IndexView(TemplateView):
@@ -21,10 +21,41 @@ class InquiryView(FormView):
         return super().form_valid(form)
 
 
+# ログイン後メニュー画面
 class MenuView(LoginRequiredMixin, ListView):
     model = Orikomi
     template_name = 'menu.html'
 
+    # DB上のユーザーとログインユーザーが一致するものだけをfilterで抽出
     def get_queryset(self):
         qs = Orikomi.objects.filter(user=self.request.user).order_by('-created_at')
         return qs
+
+
+# オリコミ詳細画面
+class OrikomiDetailView(LoginRequiredMixin, DetailView):
+    model = Orikomi
+    template_name = 'orikomi_detail.html'
+
+
+class OrikomiCreateView(LoginRequiredMixin, CreateView):
+    model = Orikomi
+    template_name = 'orikomi_create.html'
+    form_class = OrikomiCreateForm
+    success_url = reverse_lazy('orikomi:menu')
+
+    # フォームバリデーションに問題なければ下記メソッド実行。form_validメソッドをオーバーライドで実装
+    def form_valid(self, form):
+        # formではユーザー名を求めないのでcommit=FalseでDBに保存せずオブジェクト化
+        qs = form.save(commit=False)
+        # オブジェクトのユーザーにリクエストユーザーを上書き
+        qs.user = self.request.user
+        # DBに保存
+        qs.save()
+        messages.success(self.request, 'チラシをオリコミしました。')
+        return super().form_valid(form)
+
+    # フォームバリデーションに問題あればエラー文を返す。
+    def form_invalid(self, form):
+        messages.error(self.request, 'オリコミできませんでした。もう一度入力し直して下さい。')
+        return super().form_invalid(form)

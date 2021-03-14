@@ -1,11 +1,13 @@
 from django.contrib import admin
 from django.urls import path
-from orikomi.views import IndexView, InquiryView, MenuView
+from orikomi.views import IndexView, InquiryView, MenuView, OrikomiDetailView, OrikomiCreateView
 
 app_name = 'orikomi'
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
     path('inquiry/', InquiryView.as_view(), name='inquiry'),
     path('menu/', MenuView.as_view(), name='menu'),
+    path('orikomi_detail/<int:pk>/', OrikomiDetailView.as_view(), name='orikomi_detail'),
+    path('orikomi_create/', OrikomiCreateView.as_view(), name='orikomi_create'),
 
 ]
