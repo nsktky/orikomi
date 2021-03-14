@@ -33,8 +33,8 @@ class Orikomi(models.Model):
     end_day = models.DateField(verbose_name='上演終了日')
     area = models.CharField(verbose_name='上演地域', max_length=8, choices=area_select)
     genre = models.CharField(verbose_name='ジャンル', max_length=9, choices=genre_select)
-    front_imege = models.ImageField(verbose_name='チラシ表面', upload_to='front_image/')
-    back_image = models.ImageField(verbose_name='チラシ裏面', upload_to='back_image/', blank=True, null=True)
+    front_imege = models.ImageField(verbose_name='チラシ表面')
+    back_image = models.ImageField(verbose_name='チラシ裏面', blank=True, null=True)
     created_at = models.DateTimeField(verbose_name='作成日時', auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name='更新日時', auto_now=True)
 

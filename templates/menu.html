@@ -7,9 +7,10 @@
 <p>{{ item.end_day }}</p>
 <p>{{ item.area }}</p>
 <p>{{ item.genre }}</p>
-<img src="{{ item.front_image.url }}" alt="front_image">
-{% if item.back_imege %}
-<img src="{{ item.back_imege.url }}" alt="back_imege">
+
+<img src="{{ item.front_imege.url }}" alt="front_image">
+{% if item.back_image %}
+<img src="{{ item.back_image.url }}" alt="back_imege">
 {% endif %}
 <p>{{ item.created_at }}</p>
 
