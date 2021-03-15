@@ -14,4 +14,5 @@
 {% endif %}
 <p>{{ object.created_at }}</p>
 
+<p><a href="{% url 'orikomi:orikomi_update' object.pk %}">編集</a></p>
 {% endblock content %}

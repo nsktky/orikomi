@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView, ListView, FormView, DetailView, CreateView
+from django.views.generic import TemplateView, ListView, FormView, DetailView, CreateView, UpdateView
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -58,4 +58,24 @@ class OrikomiCreateView(LoginRequiredMixin, CreateView):
     # フォームバリデーションに問題あればエラー文を返す。
     def form_invalid(self, form):
         messages.error(self.request, 'オリコミできませんでした。もう一度入力し直して下さい。')
+        return super().form_invalid(form)
+
+
+class OrikomiUpdatelView(LoginRequiredMixin, UpdateView):
+    model = Orikomi
+    template_name = 'orikomi_update.html'
+    form_class = OrikomiCreateForm
+
+    # urlが動的に変化するためget_success_urlをオーバーライドしpkを渡す。
+    def get_success_url(self):
+        return reverse_lazy('orikomi:orikomi_detail', kwargs={'pk':self.kwargs['pk']})
+
+    # フォームバリデーションに問題あればエラー文を返す。
+    def form_valid(self, form):
+        messages.success(self.request, 'オリコミを更新しました。')
+        return super().form_valid(form)
+
+    # フォームバリデーションに問題あればエラー文を返す。
+    def form_invalid(self, form):
+        messages.error(self.request, 'オリコミを更新できませんでした。もう一度入力し直して下さい。')
         return super().form_invalid(form)
