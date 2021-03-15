@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView, ListView, FormView, DetailView, CreateView, UpdateView
+from django.views.generic import TemplateView, ListView, FormView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -70,7 +70,7 @@ class OrikomiUpdatelView(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         return reverse_lazy('orikomi:orikomi_detail', kwargs={'pk':self.kwargs['pk']})
 
-    # フォームバリデーションに問題あればエラー文を返す。
+    # フォームバリデーションに問題なければ成功文を返す。
     def form_valid(self, form):
         messages.success(self.request, 'オリコミを更新しました。')
         return super().form_valid(form)
@@ -79,3 +79,14 @@ class OrikomiUpdatelView(LoginRequiredMixin, UpdateView):
     def form_invalid(self, form):
         messages.error(self.request, 'オリコミを更新できませんでした。もう一度入力し直して下さい。')
         return super().form_invalid(form)
+
+
+class OrikomiDeleteView(LoginRequiredMixin, DeleteView):
+    model = Orikomi
+    template_name = 'orikomi_delete.html'
+    success_url = reverse_lazy('orikomi:menu')
+
+    # deleteメソッドをオーバーライドし削除メッセージを渡す。
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, 'オリコミを削除しました。')
+        return super().delete(request, *args, **kwargs)
