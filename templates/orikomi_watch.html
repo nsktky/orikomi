@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form id="search-form" action="" method="GET">
+    <div class="inline-checkbox">
+        <p>地域：{{ search_form.area }}</p>
+        <p>ジャンル：{{ search_form.genre }}</p>
+    </div>
+</form>
+
+{% endblock content %}

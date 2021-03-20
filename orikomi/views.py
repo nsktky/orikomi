@@ -3,7 +3,7 @@ from django.views.generic import TemplateView, ListView, FormView, DetailView, C
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import InquiryForm, OrikomiCreateForm
+from .forms import InquiryForm, OrikomiCreateForm, OrikomiSearchForm
 from .models import Orikomi
 
 class IndexView(TemplateView):
@@ -90,3 +90,13 @@ class OrikomiDeleteView(LoginRequiredMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, 'オリコミを削除しました。')
         return super().delete(request, *args, **kwargs)
+
+
+class OrikomiWatchVIew(ListView):
+    model = Orikomi
+    template_name = 'orikomi_watch.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['search_form'] = OrikomiSearchForm(self.request.GET or None)
+        return context

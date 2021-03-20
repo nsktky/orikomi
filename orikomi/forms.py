@@ -44,3 +44,9 @@ class OrikomiCreateForm(forms.ModelForm):
     class Meta:
         model = Orikomi
         fields = ('title', 'start_day', 'end_day', 'area', 'genre', 'front_imege', 'back_image')
+
+
+class OrikomiSearchForm(forms.ModelForm):
+  class Meta:
+        model = Orikomi
+        fields = ('area', 'genre')

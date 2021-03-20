@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from orikomi.views import IndexView, InquiryView, MenuView, OrikomiDetailView, OrikomiCreateView, OrikomiUpdatelView, OrikomiDeleteView
+from orikomi.views import IndexView, InquiryView, MenuView, OrikomiDetailView, OrikomiCreateView, OrikomiUpdatelView, OrikomiDeleteView, OrikomiWatchVIew
 
 app_name = 'orikomi'
 urlpatterns = [
@@ -11,5 +11,6 @@ urlpatterns = [
     path('orikomi_create/', OrikomiCreateView.as_view(), name='orikomi_create'),
     path('orikomi_update/<int:pk>/', OrikomiUpdatelView.as_view(), name='orikomi_update'),
     path('orikomi_delete/<int:pk>/', OrikomiDeleteView.as_view(), name='orikomi_delete'),
+    path('orikomi_watch/', OrikomiWatchVIew.as_view(), name='orikomi_watch'),
 
 ]
