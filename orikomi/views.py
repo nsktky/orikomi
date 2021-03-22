@@ -3,6 +3,7 @@ from django.views.generic import TemplateView, ListView, FormView, DetailView, C
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 from .forms import InquiryForm, OrikomiCreateForm, OrikomiSearchForm
 from .models import Orikomi
 
@@ -96,7 +97,19 @@ class OrikomiWatchVIew(ListView):
     model = Orikomi
     template_name = 'orikomi_watch.html'
 
+    def get_queryset(self):
+        query = self.request.GET.get('q', None)
+        lookups = (
+            Q(area__iexact=query) &
+            Q(genre__iexact=query)
+        )
+        if query is not None:
+            qs = super().get_queryset().filter(lookups).distinct()
+            return qs
+        qs = super().get_queryset()
+        return qs
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['search_form'] = OrikomiSearchForm(self.request.GET or None)
+        context['query'] = OrikomiSearchForm(self.request.GET.get('q'))
         return context
