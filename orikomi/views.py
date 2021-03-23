@@ -4,8 +4,11 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
+from django_filters.views import FilterView
+
 from .forms import InquiryForm, OrikomiCreateForm, OrikomiSearchForm
 from .models import Orikomi
+from .filters import OrikomiFilter
 
 class IndexView(TemplateView):
     template_name = 'index.html'
@@ -93,23 +96,13 @@ class OrikomiDeleteView(LoginRequiredMixin, DeleteView):
         return super().delete(request, *args, **kwargs)
 
 
-class OrikomiWatchVIew(ListView):
-    model = Orikomi
+class OrikomiWatchVIew(FilterView):
     template_name = 'orikomi_watch.html'
+    model = Orikomi
+    filterset_class = OrikomiFilter
+    queryset = Orikomi.objects.all().order_by('-created_at')
 
     def get_queryset(self):
-        query = self.request.GET.get('q', None)
-        lookups = (
-            Q(area__iexact=query) &
-            Q(genre__iexact=query)
-        )
-        if query is not None:
-            qs = super().get_queryset().filter(lookups).distinct()
-            return qs
-        qs = super().get_queryset()
-        return qs
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['query'] = OrikomiSearchForm(self.request.GET.get('q'))
-        return context
+        if self.request.GET:
+            return Orikomi.objects.all()
+        return Orikomi.objects.none()

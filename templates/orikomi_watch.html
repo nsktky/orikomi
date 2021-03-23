@@ -1,25 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<!-- <form id="search-form" action="{% url 'orikomi:orikomi_watch' %}" method="GET">
-    <div class="inline-checkbox">
-        <p>地域：{{ search_form.area }}</p>
-        <p>ジャンル：{{ search_form.genre }}</p>
+
+<form id="filter" method="get">
+    <div class="modal-body">
+        {{filter.form}}
     </div>
-    <button type="submit" id="search-button">検索</button>
-</form> -->
+    <button type="submit" class="btn btn-outline-secondary" form="filter">検索</button>
+</form>
 
-<form action="{% url 'orikomi:orikomi_watch' %}" method="GET">
-    <input type="search" name="q" value="{{ request.GET.q }}" placeholder="Search" aria-label="Search">
-        <div class="inline-checkbox">
-            <p>地域：{{ query.area }}</p>
-            <p>ジャンル：{{ query.genre }}</p>
-        </div>
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">検索</button>
-  </form>
 
-{% if query %}
-{{ query }}
-{% endif %}
+{% for item in object_list %}
+<p>{{ item.area }}</p>
+<p><img src="{{ item.front_imege.url }}" alt="front_image"></p>
+{% empty %}
+<p>対象のデータがありません</p>
+{% endfor %}
 
 {% endblock content %}
