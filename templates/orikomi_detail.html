@@ -4,8 +4,8 @@
 
 <p>公演名：{{ object.title }}</p>
 <p>上演日：{{ object.start_day }}〜{{ object.end_day }}</p>
-<p>上演地域：{{ object.get_area_display }}</p>
-<p>ジャンル：{{ object.get_genre_display }}</p>
+<p>上演地域：{{ object.area.get_area_display }}</p>
+<p>ジャンル：{{ object.genre.get_genre_display }}</p>
 <p>チラシ表面</p>
 <img src="{{ object.front_imege.url }}" alt="front_image">
 {% if object.back_image %}

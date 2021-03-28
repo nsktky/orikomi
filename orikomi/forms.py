@@ -47,6 +47,6 @@ class OrikomiCreateForm(forms.ModelForm):
 
 
 class OrikomiSearchForm(forms.ModelForm):
-  class Meta:
+    class Meta:
         model = Orikomi
         fields = ('area', 'genre')
