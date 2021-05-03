@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 from orikomi.views import IndexView, InquiryView, MenuView, OrikomiDetailView, OrikomiCreateView, OrikomiUpdatelView, OrikomiDeleteView, OrikomiWatchVIew
 
 app_name = 'orikomi'
@@ -13,4 +15,4 @@ urlpatterns = [
     path('orikomi_delete/<int:pk>/', OrikomiDeleteView.as_view(), name='orikomi_delete'),
     path('orikomi_watch/', OrikomiWatchVIew.as_view(), name='orikomi_watch'),
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
