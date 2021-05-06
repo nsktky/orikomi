@@ -44,6 +44,11 @@ class OrikomiCreateForm(forms.ModelForm):
     class Meta:
         model = Orikomi
         fields = ('title', 'start_day', 'end_day', 'area', 'genre', 'front_imege', 'back_image')
+        # 日付入力蘭をプルダウンにするためwigetsを設定
+        widgets = {
+            'start_day': forms.SelectDateWidget,
+            'end_day': forms.SelectDateWidget,
+        }
 
 
 class OrikomiSearchForm(forms.ModelForm):
