@@ -5,4 +5,4 @@ from .models import Orikomi, Area, Genre
 class OrikomiFilter(FilterSet):
     class Meta:
         model = Orikomi
-        fields = ('area', 'genre',)
+        fields = ['area', 'genre']

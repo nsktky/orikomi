@@ -1,6 +1,6 @@
 from django import forms
 from django.core.mail import EmailMessage
-from .models import Orikomi
+from .models import Orikomi, Area, Genre
 
 class InquiryForm(forms.Form):
     name = forms.CharField(label='お名前', max_length=50)
@@ -55,3 +55,12 @@ class OrikomiSearchForm(forms.ModelForm):
     class Meta:
         model = Orikomi
         fields = ('area', 'genre')
+    # area = forms.fields.ChoiceField(
+    #     choices = Area.AREA_SELECT,
+    #     required=False,
+    #     widget=forms.widgets.Select,)
+
+    # genre = forms.fields.ChoiceField(
+    #     choices = Genre.GENRE_SELECT,
+    #     required=False,
+    #     widget=forms.widgets.Select,)
