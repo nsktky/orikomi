@@ -1,14 +1,11 @@
-from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView, FormView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
-from django_filters.views import FilterView
 
 from .forms import InquiryForm, OrikomiCreateForm, OrikomiSearchForm
 from .models import Orikomi
-from .filters import OrikomiFilter
 
 class IndexView(TemplateView):
     template_name = 'index.html'
@@ -96,40 +93,27 @@ class OrikomiDeleteView(LoginRequiredMixin, DeleteView):
         return super().delete(request, *args, **kwargs)
 
 
-class OrikomiWatchView(ListView):
-    template_name = 'orikomi_watch.html'
-    # model = Orikomi
-    # form_class = OrikomiSearchForm
-    # # filterset_class = OrikomiFilter
-    # queryset = Orikomi.objects.all().order_by('-created_at')
-
-    # def get_queryset(self):
-    #     if self.request.GET:
-    #         return Orikomi.objects.all().order_by('?')[:3]
-    #     return Orikomi.objects.none()
-
-
 class OrikomiSearchView(ListView):
     template_name = 'orikomi_search.html'
     model = Orikomi
 
-# formのfieldを扱うため、get_context_dataでオーバーライドする
+    def get_queryset(self):
+        area = self.request.GET.get('area')
+        genre = self.request.GET.get('genre')
+        objects = Orikomi.objects.all().order_by('?')
+
+        if area and genre:
+            objects = objects.filter(
+                Q(area__exact=area)|
+                Q(genre__exact=genre)
+            )
+            objects = objects[:10]
+        else:
+            objects = Orikomi.objects.none()
+        return objects
+
+    # formのfieldを扱うため、get_context_dataでオーバーライドする
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['OrikomiSearchForm'] = OrikomiSearchForm
         return context
-
-    # def get_queryset(self):
-    #     area = self.request.GET.get('area')
-    #     genre = self.request.GET.get('genre')
-
-    #     if area and genre:
-    #         posts = Orikomi.objects.all().order_by('?')
-    #         posts = posts.filter(
-    #             Q(area__exact=area)|
-    #             Q(genre__exact=genre)
-    #         ).distinct()
-    #     else:
-    #         posts = Orikomi.objects.none()
-
-    #     return render(request, 'orikomi:orikomi_search.html', {'posts': posts,})
