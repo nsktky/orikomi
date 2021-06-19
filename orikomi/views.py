@@ -96,13 +96,40 @@ class OrikomiDeleteView(LoginRequiredMixin, DeleteView):
         return super().delete(request, *args, **kwargs)
 
 
-class OrikomiWatchVIew(FilterView):
+class OrikomiWatchView(ListView):
     template_name = 'orikomi_watch.html'
-    model = Orikomi
-    filterset_class = OrikomiFilter
-    queryset = Orikomi.objects.all().order_by('-created_at')
+    # model = Orikomi
+    # form_class = OrikomiSearchForm
+    # # filterset_class = OrikomiFilter
+    # queryset = Orikomi.objects.all().order_by('-created_at')
 
-    def get_queryset(self):
-        if self.request.GET:
-            return Orikomi.objects.all()
-        return Orikomi.objects.none()
+    # def get_queryset(self):
+    #     if self.request.GET:
+    #         return Orikomi.objects.all().order_by('?')[:3]
+    #     return Orikomi.objects.none()
+
+
+class OrikomiSearchView(ListView):
+    template_name = 'orikomi_search.html'
+    model = Orikomi
+
+# formのfieldを扱うため、get_context_dataでオーバーライドする
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['OrikomiSearchForm'] = OrikomiSearchForm
+        return context
+
+    # def get_queryset(self):
+    #     area = self.request.GET.get('area')
+    #     genre = self.request.GET.get('genre')
+
+    #     if area and genre:
+    #         posts = Orikomi.objects.all().order_by('?')
+    #         posts = posts.filter(
+    #             Q(area__exact=area)|
+    #             Q(genre__exact=genre)
+    #         ).distinct()
+    #     else:
+    #         posts = Orikomi.objects.none()
+
+    #     return render(request, 'orikomi:orikomi_search.html', {'posts': posts,})

@@ -2,19 +2,12 @@
 
 {% block content %}
 
-<form id="filter" method="get">
-    <div class="modal-body">
-        {{filter.form}}
-    </div>
-    <button type="submit" class="btn btn-outline-secondary" form="filter">検索</button>
-</form>
-
-
-{% for item in object_list %}
+{% for item in posts %}
 <p>{{ item.area }}</p>
 <p><img src="{{ item.front_imege.url }}" alt="front_image"></p>
 {% empty %}
 <p>対象のデータがありません</p>
 {% endfor %}
+{% endif %}
 
 {% endblock content %}

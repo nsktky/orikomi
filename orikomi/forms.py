@@ -55,12 +55,3 @@ class OrikomiSearchForm(forms.ModelForm):
     class Meta:
         model = Orikomi
         fields = ('area', 'genre')
-    # area = forms.fields.ChoiceField(
-    #     choices = Area.AREA_SELECT,
-    #     required=False,
-    #     widget=forms.widgets.Select,)
-
-    # genre = forms.fields.ChoiceField(
-    #     choices = Genre.GENRE_SELECT,
-    #     required=False,
-    #     widget=forms.widgets.Select,)

@@ -1,6 +1,6 @@
 from django_filters import filters
 from django_filters import FilterSet
-from .models import Orikomi, Area, Genre
+from .models import Orikomi
 
 class OrikomiFilter(FilterSet):
     class Meta:

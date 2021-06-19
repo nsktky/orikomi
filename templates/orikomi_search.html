@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form method="get" value="{{request.GET.q}}" action="{% url 'orikomi:orikomi_search' %}">
+    <div class="tmodel-body">
+        {{ OrikomiSearchForm.as_p }}
+    </div>
+    <button class="btn btn-primary" type="submit" >検索</button>
+</form>
+
+
+{% if posts %}
+{% for item in posts %}
+<p>{{ item.area }}</p>
+<p><img src="{{ item.front_imege.url }}" alt="front_image"></p>
+{% empty %}
+<p>対象のデータがありません</p>
+{% endfor %}
+{% endif %}
+
+{% endblock content %}
