@@ -6,6 +6,7 @@ from django.db.models import Q
 
 from .forms import InquiryForm, OrikomiCreateForm, OrikomiSearchForm
 from .models import Orikomi
+import datetime
 
 class IndexView(TemplateView):
     template_name = 'index.html'
@@ -100,14 +101,16 @@ class OrikomiSearchView(ListView):
     def get_queryset(self):
         area = self.request.GET.get('area')
         genre = self.request.GET.get('genre')
-        objects = Orikomi.objects.all().order_by('?')
+        end_day = self.request.GET.get('end_day')
+        today = datetime.date.today()
+        # 現在日時が公演終了日より前のobjectだけを取得
+        objects = Orikomi.objects.filter(end_day__gte=today).order_by('?')
 
         if area and genre:
             objects = objects.filter(
                 Q(area__exact=area)|
                 Q(genre__exact=genre)
-            )
-            objects = objects[:10]
+            )[:10]
         else:
             objects = Orikomi.objects.none()
         return objects
