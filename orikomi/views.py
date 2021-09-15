@@ -27,6 +27,7 @@ class InquiryView(FormView):
 class MenuView(LoginRequiredMixin, ListView):
     model = Orikomi
     template_name = 'menu.html'
+    paginate_by = 3
 
     # DB上のユーザーとログインユーザーが一致するものだけをfilterで抽出
     def get_queryset(self):
