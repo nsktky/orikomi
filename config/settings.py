@@ -51,6 +51,9 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
 
     'django_filters',
+
+    # アップロードファイル更新時に古いファイル削除するためdjango-cleanupを入れる
+    'django_cleanup.apps.CleanupConfig'
 ]
 
 MIDDLEWARE = [
