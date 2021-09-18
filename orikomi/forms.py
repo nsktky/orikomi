@@ -1,6 +1,7 @@
 from django import forms
 from django.core.mail import EmailMessage
 from .models import Orikomi, Area, Genre
+import os
 
 class InquiryForm(forms.Form):
     name = forms.CharField(label='お名前', max_length=50)
@@ -49,7 +50,6 @@ class OrikomiCreateForm(forms.ModelForm):
             'start_day': forms.SelectDateWidget,
             'end_day': forms.SelectDateWidget,
         }
-
 
 class OrikomiSearchForm(forms.ModelForm):
     class Meta:
