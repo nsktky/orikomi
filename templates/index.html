@@ -1,9 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<p><a href="{% url 'orikomi:orikomi_search' %}">オリコミを見る</a></p>
-<p><a href="{% url 'account_signup' %}">ユーザー登録</a></p>
-<p><a href="{% url 'account_login' %}">ログイン</a></p>
-<p><a href="{% url 'orikomi:menu' %}">メニュー</a></p>
-<p><a href="{% url 'orikomi:inquiry' %}">お問い合わせ</a></p>
+<main class="px-3">
+    <div class="container py-5">
+        <p><a href="{% url 'orikomi:orikomi_search' %}">オリコミを見る</a></p>
+        <p><a href="{% url 'account_signup' %}">ユーザー登録</a></p>
+        <p><a href="{% url 'account_login' %}">ログイン</a></p>
+        <p><a href="{% url 'orikomi:menu' %}">メニュー</a></p>
+        <p><a href="{% url 'orikomi:inquiry' %}">お問い合わせ</a></p>
+    </div>
+</main>
 {% endblock content %}
