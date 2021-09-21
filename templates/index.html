@@ -3,11 +3,17 @@
 {% block content %}
 <main class="px-3">
     <div class="container py-5">
-        <p><a href="{% url 'orikomi:orikomi_search' %}">オリコミを見る</a></p>
-        <p><a href="{% url 'account_signup' %}">ユーザー登録</a></p>
-        <p><a href="{% url 'account_login' %}">ログイン</a></p>
-        <p><a href="{% url 'orikomi:menu' %}">メニュー</a></p>
-        <p><a href="{% url 'orikomi:inquiry' %}">お問い合わせ</a></p>
+        <h1 class="text-center">orikomi</h1>
+        <div class="d-grid gap-2 col-6 mx-auto mt-5">
+            <h5>オリコミを見たい方</h3>
+            <a class="btn btn-outline-secondary" href="{% url 'orikomi:orikomi_search' %}" role="button">オリコミを見る</a>
+            <h5 class="mt-5">オリコミをしたい方</h3>
+            <a class="btn btn-outline-secondary" href="{% url 'account_signup' %}" role="button">ユーザー登録</a>
+            <a class="btn btn-outline-secondary" href="{% url 'account_login' %}" role="button">ログイン</a>
+            <a class="btn btn-outline-secondary" href="{% url 'orikomi:menu' %}" role="button">メニュー</a>
+            <h5 class="mt-5">お問い合わせ</h3>
+            <a class="btn btn-outline-secondary" href="{% url 'orikomi:inquiry' %}" role="button">お問い合わせフォーム</a>
+        </div>
     </div>
 </main>
 {% endblock content %}
