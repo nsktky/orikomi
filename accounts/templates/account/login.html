@@ -12,7 +12,7 @@
             <form method="post" action="{% url 'account_login' %}">
                 {% csrf_token %}
 
-                <p class="col-12">{{ form.login }}</p>
+                <p>{{ form.login }}</p>
                 <p>{{ form.password }}</p>
 
                 {% if redirect_field_value %}
