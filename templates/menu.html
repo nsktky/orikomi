@@ -4,43 +4,30 @@
 <main class="px-3">
   <div class="container py-5">
     <h1 class="text-center">ログイン後メニュー</h1>
+    <div class="text-center mt-3">
+      <span><a class="btn btn-outline-secondary" href="{% url 'orikomi:orikomi_create' %}" role="button">オリコミする</a></span>
+      <span><a class="btn btn-outline-secondary" href="{% url 'account_logout' %}" role="button">ログアウト</a></span>
+    </div>
+    <div class="card-deck mt-3">
+      <div class="row">
+        {% for item in object_list %}
+        <div class="col-sm-4 py-2">
+          <div class="card h-100">
+            <img src="{{ item.front_imege.url }}" alt="front_image" class="card-img-top" >
+            <div class="card-body">
+              <p class="card-text"><a href="{% url 'orikomi:orikomi_detail' item.pk %}">公演名：{{ item.title }}</a></p>
+              <p class="card-text">上演日：{{ item.start_day }}〜{{ item.end_day }}</p>
+            </div>
+          </div>
+        </div>
 
-    {% for item in object_list %}
-    <div class="card py-5 mt-5"">
-      <!-- <img src="{{ item.front_imege.url }}" alt="front_image" class="card-img-top" > -->
-      <div class="card-body">
-        <p class="card-text"><a href="{% url 'orikomi:orikomi_detail' item.pk %}">公演名：{{ item.title }}</a></p>
-        <p class="card-text">上演日：{{ item.start_day }}〜{{ item.end_day }}</p>
+        {% empty %}
+        <p class="text-center mt-5">折り込みがありません。</p>
+        {% endfor %}
       </div>
     </div>
 
-    {% empty %}
-    <p class="text-center">折り込みがありません。</p>
-    {% endfor %}
-
-    {% if is_paginated %}
-    <nav>
-      {% if page_obj.has_previous %}
-      <a href="?page={{ page_obj.previous_page_number }}">前へ</a>
-      {% endif %}
-
-      {% for num in paginator.page_range %}
-      {% if page_obj.number == num %}
-      <span>{{ num }}</span>
-      {% else %}
-      <a href="?page={{ num }}">{{ num }}</a>
-      {% endif %}
-      {% endfor %}
-
-      {% if page_obj.has_next %}
-      <a href="?page={{ page_obj.next_page_number }}">次へ</a>
-      {% endif %}
-    </nav>
-    {% endif %}
-    <!-- <div class="d-flex align-items-center justify-content-center mt-5"> -->
-      <p class="text-center"><a class="btn btn-outline-secondary mt-3" href="{% url 'orikomi:orikomi_create' %}" role="button">オリコミする</a></p>
-      <p class="text-center"><a class="btn btn-outline-secondary mt-2" href="{% url 'account_logout' %}" role="button">ログアウト</a></p>
-    <!-- </div> -->
+    {% include "paginate.html" %}
 
   </div>
 </main>
